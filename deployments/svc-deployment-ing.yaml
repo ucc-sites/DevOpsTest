@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-py-app-svc-ing
+spec:
+  selector:
+    app: hello-py-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000

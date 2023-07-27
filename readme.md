@@ -46,7 +46,9 @@ docker run --rm -dp 80:5000 helloapp-py:latest
 ```
 
 ## 1.6 Test new container in web browser
+```
 http://localhost
+```
 
 ## 1.7 Create OCIR repository on OCI
 repo_name: project01/helloapp-py
@@ -71,28 +73,30 @@ docker push <region-key>/<namespace>/project01/hello-py-app:v1
 ```
 
 # 2 Run the container on an OCI compute instance
-# 2.1 Connect to the OCI instance via SSH
+## 2.1 Connect to the OCI instance via SSH
 ```
 ssh opc@<instance-ip> -i sshkey
 ```
 
-# 2.2 Login to the container image registry
+## 2.2 Login to the container image registry
 ```
 docker login <region-key>
 username: <namespace>/oracleidentitycloudservice/<username>
 pass (Auth-Token): <auth-token>
 ```
 
-# 2.3 Pull image from an OCI instance (From terminal instance)
+## 2.3 Pull image from an OCI instance (From terminal instance)
 ```
 docker pull <region-key>/<namespace>/project01/hello-py-app:v1
 docker images
 ```
 
-# 2.4 Run a new container from the pulled image
+## 2.4 Run a new container from the pulled image
 ```
 sudo docker run --rm -p 80:5000 <region-key>/<namespace>/project01/hello-py-app:v1
 ```
 
-# 2.5 Test new container on OCI instance in web browser
+## 2.5 Test new container on OCI instance in web browser
+```
 http://<oci-instance-ip>
+```

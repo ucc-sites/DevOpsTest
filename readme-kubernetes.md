@@ -92,4 +92,6 @@ kubectl -n ns-test describe svc helloapp-py-lb
 ```
 
 ## 1.12 Test new deployment on OKE cluster in web browser
+```
 http://<load-balancer-ip>:5000
+```

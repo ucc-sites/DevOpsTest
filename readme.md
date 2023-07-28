@@ -62,12 +62,11 @@ pass (Auth-Token): <auth-token>
 ```
 
 ## 1.9 Change the image tag to create a copy image
-## 1.10 docker tag <source-image>:<tag> <new-image-path>:<tag>
 ```
 docker tag helloapp-py <region-key>/<namespace>/project01/hello-py-app:v1
 ```
 
-## 1.11 Push that copy into the OCIR repository on OCI
+## 1.10 Push that copy into the OCIR repository on OCI
 ```
 docker push <region-key>/<namespace>/project01/hello-py-app:v1
 ```

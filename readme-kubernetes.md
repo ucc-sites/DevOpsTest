@@ -20,7 +20,9 @@ kubectl -n ns-test create secret docker-registry my-ocirsecret --docker-server=<
 ```
 
 ### 1.4 Check for all secrets in the current namespace
+```
 kubectl -n ns-test get secrets
+```
 
 ### 1.5 Create the deployment YAML file (app-deployment.yaml) with following text
     ```
@@ -50,10 +52,14 @@ kubectl -n ns-test get secrets
             - name: my-ocirsecret
     ```
 ### 1.6 Create the Deployment object for the helloapp-py
+```
 kubectl -n ns-test apply -f app-deployment.yaml
+```
 
 ### 1.7 List the deployments inside the current namespace
+```
 kubectl -n ns-test get deployments
+```
 
 ### 1.8 Create the service YAML file (svc-deployment.yaml) with following test
     ```

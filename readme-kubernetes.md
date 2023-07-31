@@ -1,28 +1,28 @@
-# 1. Deploy container on an OKE cluster
-## 1.1 Check for all nodes inside the OKE cluster
+## 1. Deploy container on an OKE cluster
+### 1.1 Check for all nodes inside the OKE cluster
 ```
 kubectl get nodes
 ```
 
-## 1.2 Check for all namespaces inside the OKE cluster
+### 1.2 Check for all namespaces inside the OKE cluster
 ```
 kubectl get ns
 ```
 
-## 1.3 Create ns-test namespace inside OKE cluster
+### 1.3 Create ns-test namespace inside OKE cluster
 ```
 kubectl create ns ns-test
 ```
 
-## 1.3 Create secret inside OKE cluster in order to connet to container registry
+### 1.3 Create secret inside OKE cluster in order to connet to container registry
 ```
 kubectl -n ns-test create secret docker-registry my-ocirsecret --docker-server=<region-key> --docker-username='<namespace>/<username>' --docker-password='<auth-token>' --docker-email='user-email'
 ```
 
-## 1.4 Check for all secrets in the current namespace
+### 1.4 Check for all secrets in the current namespace
 kubectl -n ns-test get secrets
 
-## 1.5 Create the deployment YAML file (app-deployment.yaml) with following text
+### 1.5 Create the deployment YAML file (app-deployment.yaml) with following text
     ```
     apiVersion: apps/v1
     kind: Deployment
@@ -49,13 +49,13 @@ kubectl -n ns-test get secrets
         imagePullSecrets:
             - name: my-ocirsecret
     ```
-## 1.6 Create the Deployment object for the helloapp-py
+### 1.6 Create the Deployment object for the helloapp-py
 kubectl -n ns-test apply -f app-deployment.yaml
 
-## 1.7 List the deployments inside the current namespace
+### 1.7 List the deployments inside the current namespace
 kubectl -n ns-test get deployments
 
-## 1.8 Create the service YAML file (svc-deployment.yaml) with following test
+### 1.8 Create the service YAML file (svc-deployment.yaml) with following test
     ```
     apiVersion: v1
     kind: Service
@@ -76,22 +76,22 @@ kubectl -n ns-test get deployments
         app: helloapp-py
     ```
 
-## 1.9 Create the Service object for the svc-helloapp-py
+### 1.9 Create the Service object for the svc-helloapp-py
 ```
 kubectl -n ns-test apply -f svc-deployment.yaml
 ```
 
-## 1.10 List the deployments inside the current namespace
+### 1.10 List the deployments inside the current namespace
 ```
 kubectl -n ns-test get svc
 ```
 
-## 1.11 See the details of the new Service
+### 1.11 See the details of the new Service
 ```
 kubectl -n ns-test describe svc helloapp-py-lb
 ```
 
-## 1.12 Test new deployment on OKE cluster in web browser
+### 1.12 Test new deployment on OKE cluster in web browser
 ```
 http://<load-balancer-ip>:5000
 ```

@@ -25,32 +25,32 @@ kubectl -n ns-test get secrets
 ```
 
 #### 1.5 Create the deployment YAML file (app-deployment.yaml) with following text
-    ```
-    apiVersion: apps/v1
-    kind: Deployment
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: helloapp-py
+spec:
+selector:
+    matchLabels:
+    app: helloapp-py
+replicas: 3
+template:
     metadata:
-    name: helloapp-py
-    spec:
-    selector:
-        matchLabels:
+    labels:
         app: helloapp-py
-    replicas: 3
-    template:
-        metadata:
-        labels:
-            app: helloapp-py
-        spec:
-        containers:
-        - name: helloapp-py
-            image: <region-key>/<namespace>/project01/helloapp-py:v1
-            imagePullPolicy: Always
-            ports:
-            - name: python-app
-            containerPort: 5000
-            protocol: TCP
-        imagePullSecrets:
-            - name: my-ocirsecret
-    ```
+    spec:
+    containers:
+    - name: helloapp-py
+        image: <region-key>/<namespace>/project01/helloapp-py:v1
+        imagePullPolicy: Always
+        ports:
+        - name: python-app
+        containerPort: 5000
+        protocol: TCP
+    imagePullSecrets:
+        - name: my-ocirsecret
+```
 #### 1.6 Create the Deployment object for the helloapp-py
 ```
 kubectl -n ns-test apply -f app-deployment.yaml
@@ -62,25 +62,25 @@ kubectl -n ns-test get deployments
 ```
 
 #### 1.8 Create the service YAML file (svc-deployment.yaml) with following test
-    ```
-    apiVersion: v1
-    kind: Service
-    metadata:
-    name: helloapp-py-lb
-    labels:
-        app: helloapp-py
-    annotations:
-        oci.oraclecloud.com/load-balancer-type: "lb"
-        service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
-        service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
-        service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "10"
-    spec:
+```
+apiVersion: v1
+kind: Service
+metadata:
+name: helloapp-py-lb
+labels:
+    app: helloapp-py
+annotations:
+    oci.oraclecloud.com/load-balancer-type: "lb"
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "10"
+spec:
     type: LoadBalancer
     ports:
     - port: 5000
     selector:
         app: helloapp-py
-    ```
+```
 
 #### 1.9 Create the Service object for the svc-helloapp-py
 ```

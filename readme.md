@@ -51,8 +51,10 @@ http://localhost
 ```
 
 #### 1.7 Create OCIR repository on OCI
+```
 repo_name: project01/helloapp-py
 image_path: <region-key>/<namespace>/project01/helloapp-py:v1
+```
 
 #### 1.8 Connect to the new OCIR repository
 ```

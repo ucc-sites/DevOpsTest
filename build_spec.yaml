@@ -1,0 +1,74 @@
+version: 0.1
+component: build
+timeoutInSeconds: 6000
+runAs: root
+shell: /bin/sh
+env:
+  # these are local variables to the build config
+  variables:
+    key: "value"
+
+  # the value of a vaultVariable is the secret-id (in OCI ID format) stored in the OCI Vault service
+  # you can then access the value of that secret in your build_spec.yaml commands
+  vaultVariables:
+
+    # variables related to container image
+    OCIR_REGION_VAULT: ocid1.vaultsecret.oc1.phx...
+    OCIR_STORAGE_NAMESPACE_VAULT: ocid1.vaultsecret.oc1...
+  
+  # exportedVariables are made available to use as parameters in sucessor Build Pipeline stages
+  # For this Build to run, the Build Pipeline needs to have a BUILDRUN_VERSION parameter set
+  exportedVariables:
+
+    - BUILDRUN_VERSION
+    - OCIR_REGION
+    - OCIR_STORAGE_NAMESPACE
+
+steps:
+  - type: Command
+    name: "Define unique image tag"
+    timeoutInSeconds: 40
+    command: |
+      export BUILDRUN_VERSION=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
+      echo "BUILDRUN_VERSION: " $BUILDRUN_VERSION
+
+  - type: Command
+    name: "Extract Export variables"
+    timeoutInSeconds: 20
+    command: |
+      echo transferring the OCIR_REGION and OCIR_STORAGE_NAMESPACE vault variables
+      export OCIR_REGION=$OCIR_REGION_VAULT
+      echo OCIR_REGION is $OCIR_REGION
+      export OCIR_STORAGE_NAMESPACE=$OCIR_STORAGE_NAMESPACE_VAULT
+      echo OCIR_STORAGE_NAMESPACE is $OCIR_STORAGE_NAMESPACE
+      echo Image will be stored to ${OCIR_REGION}/${OCIR_STORAGE_NAMESPACE}/${APP_MICROSERVICE_REPO}:${BUILDRUN_VERSION}
+    onFailure:
+      - type: Command
+        command: |
+          echo "Handling Failure"
+          echo "Failure successfully handled"
+        timeoutInSeconds: 40
+        runAs: root
+
+  - type: Command
+    timeoutInSeconds: 1200
+    name: "Build container image"
+    command: |
+      cd ${OCI_WORKSPACE_DIR}/${BUILD_SOURCE_NAME}
+      echo Running docker update - Working in `pwd`
+      docker build --pull --rm -t new-image .
+      echo Images are:
+      docker images
+
+outputArtifacts:
+  - name: new_container_image
+    type: DOCKER_IMAGE
+    # this location tag doesn't effect the tag used to deliver the container image
+    # to the Container Registry
+    location: new-image:latest
+  - name: deployment_yaml
+    type: BINARY
+    location: ${OCI_WORKSPACE_DIR}/${BUILD_SOURCE_NAME}/manifests/app-deployment.yaml
+  - name: service_yaml
+    type: BINARY
+    location: ${OCI_WORKSPACE_DIR}/${BUILD_SOURCE_NAME}/manifests/svc-deployment.yaml

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: hello-py-app
-        image: phx.ocir.io/idch4uyl2yza/ce-jcc/hello-py-app:v1
+        image: ${OCIR_REGION}/${OCIR_STORAGE_NAMESPACE}/ce-jcc/hello-py-app:${BUILDRUN_VERSION}
         imagePullPolicy: Always
         ports:
 #        - name: hello-py-app

@@ -13,9 +13,9 @@ env:
   vaultVariables:
 
     # variables related to container image
-    OCIR_REGION_VAULT: ocid1.vaultsecret.oc1.phx...
-    OCIR_STORAGE_NAMESPACE_VAULT: ocid1.vaultsecret.oc1...
-  
+    OCIR_REGION_VAULT: ocid1.vaultsecret.oc1.sa-saopaulo-1.amaaaaaa4tr4hciab4trqtr5ih3zlzxvnoy53ceetyaoswf2e53l34gghupq
+    OCIR_STORAGE_NAMESPACE_VAULT: ocid1.vaultsecret.oc1.sa-saopaulo-1.amaaaaaa4tr4hciabs7zmwpbmwwxb7q5zzjpbkjwa3f5bavsk3rlnmwbvepq
+    
   # exportedVariables are made available to use as parameters in sucessor Build Pipeline stages
   # For this Build to run, the Build Pipeline needs to have a BUILDRUN_VERSION parameter set
   exportedVariables:

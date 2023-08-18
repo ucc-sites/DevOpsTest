@@ -1,21 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-py-app
-  namespace: test
+  name: ${APP_MICROSERVICE_NAME}
 spec:
   selector:
     matchLabels:
-      app: hello-py-app
+      app: ${APP_MICROSERVICE_NAME}
   replicas: 2
   template:
     metadata:
       labels:
-        app: hello-py-app
+        app: ${APP_MICROSERVICE_NAME}
     spec:
       containers:
-      - name: hello-py-app
-        image: ${OCIR_REGION}/${OCIR_STORAGE_NAMESPACE}/ce-jcc/hello-py-app:${BUILDRUN_VERSION}
+      - name: ${APP_MICROSERVICE_NAME}
+        image: ${OCIR_REGION}/${OCIR_STORAGE_NAMESPACE}/${APP_MICROSERVICE_REPO}:${BUILDRUN_VERSION}
         imagePullPolicy: Always
         ports:
 #        - name: hello-py-app

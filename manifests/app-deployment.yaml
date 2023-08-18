@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: ${APP_MICROSERVICE_NAME}
-  replicas: 2
+  replicas: 5
   template:
     metadata:
       labels:
